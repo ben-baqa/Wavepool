@@ -5,17 +5,20 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Diagnostics;
 
+/*
+ * higher notes closer to center
+ * change frequency by pitch
+ * exclusive centre zone
+ * centre zone with big wuwoh and long splash
+ * blending between two zones at any point 
+*/
+
 namespace Wavepool
 {
     public class Game1 : Game
     {
-        Point gameResolution = new Point(1920, 1080);
-
-        RenderTarget2D renderTarget;
-        Rectangle renderTargetDestination;
-        bool canToggleFullscreen = true;
-
-        Color letterboxingColor = new Color(0, 0, 0);
+        Vector2 gameResolution = new Vector2(1920, 1080);
+        FullScreen fullScreenManager;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -23,7 +26,6 @@ namespace Wavepool
 
         Wavepool wavepool;
         SoundEffect pingSound;
-        Vector2 screenSize;
         bool canClick = true;
 
         public Game1()
@@ -35,15 +37,10 @@ namespace Wavepool
 
         protected override void Initialize()
         {
-            //SetFullscreen();
-
             // TODO: Add your initialization logic here
-            //screenSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-            screenSize = new Vector2(gameResolution.X, gameResolution.Y);
-            //Debug.WriteLine(screenSize);
 
             Vector2 poolMargin = Vector2.One * 20;
-            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, screenSize - poolMargin * 2, 128, 72, 8);
+            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 128, 72, 8);
 
             base.Initialize();
         }
@@ -52,13 +49,7 @@ namespace Wavepool
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            graphics.PreferredBackBufferWidth = gameResolution.X;
-            graphics.PreferredBackBufferHeight = gameResolution.Y;
-
-            graphics.ApplyChanges();
-
-            renderTarget = new RenderTarget2D(GraphicsDevice, gameResolution.X, gameResolution.Y);
-            renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             Texture2D circleTexture = Content.Load<Texture2D>("circle");
@@ -86,92 +77,26 @@ namespace Wavepool
                 if (mousePos.X > 0 && mousePos.X < graphics.PreferredBackBufferWidth &&
                     mousePos.Y > 0 && mousePos.Y < graphics.PreferredBackBufferHeight)
                 {
-                    mousePos.X *= (float)gameResolution.X / graphics.PreferredBackBufferWidth;
-                    mousePos.Y *= (float)gameResolution.Y / graphics.PreferredBackBufferHeight;
+                    mousePos = fullScreenManager.ScreenToGamePoint(mousePos);
                     wavepool.AddRipple(mousePos, pingSound);
                 }
             }
             else if (mouse.LeftButton == ButtonState.Released)
                 canClick = true;
 
-            var keyboard = Keyboard.GetState();
-            if (canToggleFullscreen && keyboard.IsKeyDown(Keys.F11))
-            {
-                canToggleFullscreen = false;
-                ToggleFullScreen();
-            }
-            else
-                canToggleFullscreen = true;
+            fullScreenManager.Update();
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(renderTarget);
-            GraphicsDevice.Clear(letterboxingColor);
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            fullScreenManager.Push();
 
             wavepool.Draw();
 
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(letterboxingColor);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(renderTarget, renderTargetDestination, Color.White);
-            spriteBatch.End();
-
+            fullScreenManager.Pop();
             base.Draw(gameTime);
-        }
-
-        void ToggleFullScreen()
-        {
-            if (!graphics.IsFullScreen)
-            {
-                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-                graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            }
-            else
-            {
-                graphics.PreferredBackBufferWidth = gameResolution.X;
-                graphics.PreferredBackBufferHeight = gameResolution.Y;
-            }
-            graphics.IsFullScreen = !graphics.IsFullScreen;
-            graphics.ApplyChanges();
-
-            renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-        }
-
-        Rectangle GetRenderTargetDestination(Point resolution, int preferredBackBufferWidth, int preferredBackBufferHeight)
-        {
-            float resolutionRatio = (float)resolution.X / resolution.Y;
-            float screenRatio;
-            Point bounds = new Point(preferredBackBufferWidth, preferredBackBufferHeight);
-            screenRatio = (float)bounds.X / bounds.Y;
-            float scale;
-            Rectangle rectangle = new Rectangle();
-
-            if (resolutionRatio < screenRatio)
-                scale = (float)bounds.Y / resolution.Y;
-            else if (resolutionRatio > screenRatio)
-                scale = (float)bounds.X / resolution.X;
-            else
-            {
-                // Resolution and window/screen share aspect ratio
-                rectangle.Size = bounds;
-                return rectangle;
-            }
-            rectangle.Width = (int)(resolution.X * scale);
-            rectangle.Height = (int)(resolution.Y * scale);
-            return CenterRectangle(new Rectangle(Point.Zero, bounds), rectangle);
-        }
-
-        static Rectangle CenterRectangle(Rectangle outerRectangle, Rectangle innerRectangle)
-        {
-            Point delta = outerRectangle.Center - innerRectangle.Center;
-            innerRectangle.Offset(delta);
-            return innerRectangle;
         }
     }
 }
