@@ -13,19 +13,11 @@ namespace Wavepool
         List<Ripple> ripples;
         List<Ripple> doomedRipples;
 
-        Texture2D texture;
+        WaveGrid waveGrid;
+
         SpriteBatch spriteBatch;
 
-        Vector2 drawOffset;
-        Vector2 drawScale;
-        float drawSize;
-
-        Vector2 position;
-        Vector2 size;
-        Vector2 spacing;
-
-        int rows;
-        int columns;
+        float halfX;
 
 
         public Wavepool(Vector2 position, Vector2 size, int rows, int columns, float drawSize)
@@ -33,21 +25,15 @@ namespace Wavepool
             ripples = new List<Ripple>();
             doomedRipples = new List<Ripple>();
 
-            this.position = position;
-            this.size = size;
-            spacing = new Vector2(size.X / rows, size.Y / columns);
+            halfX = size.X / 2;
 
-            this.rows = rows;
-            this.columns = columns;
-            this.drawSize = drawSize;
+            waveGrid = new WaveGrid(position, size, rows, columns, drawSize, GetOffset);
         }
 
-        public void Load(Texture2D texture, SpriteBatch spriteBatch)
+        public void Load(Texture2D texture, GraphicsDevice graphicsDevice)
         {
-            this.texture = texture;
-            drawOffset = new Vector2(texture.Width / 2, texture.Height / 2);
-            drawScale = Vector2.One * drawSize / texture.Height;
-            this.spriteBatch = spriteBatch;
+            spriteBatch = new SpriteBatch(graphicsDevice);
+            waveGrid.OnLoad(texture, spriteBatch);
         }
 
         public void Update(float deltaTime)
@@ -66,19 +52,14 @@ namespace Wavepool
         public void Draw()
         {
             spriteBatch.Begin();
-            for(int i = 0; i < rows; i++)
-            {
-                for(int j = 0; j < columns; j++)
-                {
-                    DrawPoint(GetPoint(i, j));
-                }
-            }
+
+            waveGrid.DrawGrid();
+
             spriteBatch.End();
         }
 
         public void AddRipple(Vector2 origin, SoundEffect sound)
         {
-            float halfX = size.X / 2;
             float panning = (origin.X - halfX) / halfX;
             if (panning < -1) panning = -1;
             else if(panning > 1) panning = 1;
@@ -89,38 +70,16 @@ namespace Wavepool
             doomedRipples.Add(ripple);
         }
 
-        Vector2 GetPoint(int rowIndex, int columnIndex)
-        {
-            Vector2 point = new Vector2(rowIndex * spacing.X, columnIndex * spacing.Y);
-            point += position;
-            return point + GetOffset(point);
-        }
-
         Vector2 GetOffset(Vector2 position)
         {
             Vector2 offset = Vector2.Zero;
 
-            foreach(Ripple ripple in ripples)
+            foreach (Ripple ripple in ripples)
             {
                 offset += ripple.GetOffset(position);
             }
 
             return offset;
-        }
-
-        void DrawPoint(Vector2 position)
-        {
-            spriteBatch.Draw(
-                texture,
-                position,
-                null,
-                Color.White,
-                0f,
-                drawOffset,
-                drawScale,
-                SpriteEffects.None,
-                0
-            );
         }
     }
 }

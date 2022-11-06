@@ -37,8 +37,9 @@ namespace Wavepool
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
 
+            // TODO: Add your initialization logic here
             Vector2 poolMargin = Vector2.One * 20;
             wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 128, 72, 8);
 
@@ -49,11 +50,9 @@ namespace Wavepool
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
             Texture2D circleTexture = Content.Load<Texture2D>("circle");
-            wavepool.Load(circleTexture, spriteBatch);
+            wavepool.Load(circleTexture, GraphicsDevice);
 
             pingSound = Content.Load<SoundEffect>("ping");
         }
