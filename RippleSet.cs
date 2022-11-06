@@ -22,9 +22,8 @@ namespace Wavepool
             centre = screenSize / 2;
         }
 
-        public void SpawnCentreRipple(float centreRadius)
+        public void SpawnCentreRipple()
         {
-            centreRippleParams.radius = centreRadius;
             wavepool.AddRipple(new Ripple(centre, centreRippleParams));
         }
 

@@ -5,32 +5,72 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using MonoGame.Extended;
+using MonoGame.Extended.VectorDraw;
 
 namespace Wavepool
 {
     public class RadialInstrument
     {
-        SoundEffect[] radialSounds;
+        int[] majorPitches = new int[] { -9, -4, 0, 3, 5, 10 };
+        int[] minorPitches = new int[] { -10, -5, 0, 4, 5, 9 };
+        int[] Pitches => isMajor ? majorPitches : minorPitches;
+
+        SoundEffect[] RadialSounds => isMajor? majorSounds: minorSounds;
+        SoundEffect[] majorSounds;
+        SoundEffect[] minorSounds;
         SoundEffect innerSound;
-        Vector2 screenSize;
-        float innerRadius;
-        float outerRadius;
-
         Vector2 centre;
+        float outerRadius;
+        float innerRadius;
 
+        public bool isMajor;
+
+        SpriteBatch spriteBatch;
         RippleSet rippleSet;
 
-        public RadialInstrument(SoundEffect[] radialSounds, SoundEffect innerSound, Vector2 screenSize, float innerRadius, RippleSet rippleSet)
+        public RadialInstrument(GraphicsDevice graphicsDevice, SoundEffect[] majorSounds, SoundEffect[] minorSounds,
+            SoundEffect innerSound, Vector2 screenSize, float innerRadius, RippleSet rippleSet)
         {
-            this.radialSounds = radialSounds;
+            spriteBatch = new SpriteBatch(graphicsDevice);
+
+            this.majorSounds = majorSounds;
+            this.minorSounds = minorSounds;
+            isMajor = true;
+
             this.innerSound = innerSound;
-            this.screenSize = screenSize;
             this.innerRadius = innerRadius;
 
             centre = screenSize / 2;
             outerRadius = centre.Y;
 
             this.rippleSet = rippleSet;
+        }
+
+        public void DrawGuides()
+        {
+            Color guideColor = Color.WhiteSmoke;
+            float guideThickness = 2;
+
+            spriteBatch.Begin();
+            spriteBatch.DrawCircle(centre, innerRadius, 32, guideColor, guideThickness * 5);
+
+            for(int i = 0; i < 5; i++)
+            {
+                Vector2 radii = new Vector2(innerRadius + (i + 1) * (centre.X - innerRadius) / 6,
+                    innerRadius + (i + 1) * (centre.Y - innerRadius) / 6);
+                spriteBatch.DrawEllipse(centre, radii, 32, guideColor, guideThickness);
+            }
+
+            float radStep = 2 * MathF.PI / RadialSounds.Length;
+            for (int i = 0; i < RadialSounds.Length; i++)
+            {
+                float angle = i * radStep;
+                Vector2 direction = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                direction.Normalize();
+                spriteBatch.DrawLine(centre + direction * innerRadius, centre + direction * outerRadius, guideColor, guideThickness);
+            }
+            spriteBatch.End();
         }
 
         public void OnClick(Vector2 position)
@@ -43,20 +83,24 @@ namespace Wavepool
             {
                 sound = innerSound.CreateInstance();
 
-                rippleSet.SpawnCentreRipple(innerRadius);
+                rippleSet.SpawnCentreRipple();
+
+                isMajor = !isMajor;
             }
             else
             {
-                float angle = MathF.Atan2(diff.Y, diff.X);
-                int soundIndex = (int)(angle / (2 * MathF.PI) * radialSounds.Length);
+                float angle = MathF.Atan2(diff.Y, diff.X) + MathF.PI;
+                int soundIndex = (int)(angle / (2 * MathF.PI) * (RadialSounds.Length));
+                Debug.WriteLine($"angle: {angle}, soundIndex: {soundIndex}");
 
-                sound = radialSounds[soundIndex].CreateInstance();
+                sound = RadialSounds[soundIndex].CreateInstance();
                 sound.Pan = GetPanning(position);
-                sound.Pitch = GetPitch(dist);
+                sound.Pitch = GetPitch(position);
 
                 rippleSet.SpawnRipple(position, soundIndex);
             }
 
+            //sound.Volume = 0.5f;
             sound.Play();
         }
 
@@ -68,18 +112,39 @@ namespace Wavepool
             return panning;
         }
 
-        // will return either -10/12, -5/12, 0, 5/12 or 10/12
-        public float GetPitch(float distance)
+        public float GetPitch(Vector2 point)
         {
-            distance = distance - innerRadius;
-            float totalDistanceRatio = distance / (outerRadius - innerRadius);
-            int pitchIndex = (int)(totalDistanceRatio * 5f);
+            int pitchIndex = 5;
 
-            if (pitchIndex > 4)
-                pitchIndex = 4;
-                     
-            Debug.Write("Pitch index: " + pitchIndex);
-            return (10 - pitchIndex * 5) / 12f;
+            Vector2 radii = Vector2.One * innerRadius;
+            Vector2 radiiStep = (centre - radii) / 6;
+            while (pitchIndex > 0)
+            {
+                radii += radiiStep;
+                if (InEllipse(centre, radii, point))
+                    break;
+
+                pitchIndex--;
+            }
+
+            //int[] pitches = new int[] { -9, -4, 0, 3, 5, 10 };
+            return Pitches[pitchIndex] / 12f;
+        }
+
+        bool InEllipse(Vector2 origin, Vector2 radii, Vector2 point)
+        {
+            float a = EllipseHelper(origin.X, point.X, radii.X);
+            float b = EllipseHelper(origin.Y, point.Y, radii.Y);
+
+            return a + b <= 1;
+        }
+
+        float EllipseHelper(float origin, float point, float radius)
+        {
+            float res = point - origin;
+            res *= res;
+            res /= (radius * radius);
+            return res;
         }
     }
 }
