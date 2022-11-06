@@ -24,8 +24,12 @@ namespace Wavepool
         private SpriteBatch spriteBatch;
 
 
+        RadialInstrument instrument;
         Wavepool wavepool;
+
+
         SoundEffect pingSound;
+        
         bool canClick = true;
 
         public Game1()
@@ -54,7 +58,18 @@ namespace Wavepool
             Texture2D circleTexture = Content.Load<Texture2D>("circle");
             wavepool.Load(circleTexture, GraphicsDevice);
 
+
+            RippleSet rippleSet = new RippleSet(wavepool, new RippleParameters[]
+            {
+                new RippleParameters(15, 30, 200, 30, 1, 0.2f)
+            }, new RippleParameters(50, 50, 200, 50, 5, 0.1f),
+            gameResolution);
+
             pingSound = Content.Load<SoundEffect>("ping");
+            instrument = new RadialInstrument(new SoundEffect[]
+            {
+                pingSound
+            }, pingSound, gameResolution, 50, rippleSet);
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,7 +92,8 @@ namespace Wavepool
                     mousePos.Y > 0 && mousePos.Y < graphics.PreferredBackBufferHeight)
                 {
                     mousePos = fullScreenManager.ScreenToGamePoint(mousePos);
-                    wavepool.AddRipple(mousePos, pingSound);
+                    //wavepool.AddRipple(mousePos, pingSound);
+                    instrument.OnClick(mousePos);
                 }
             }
             else if (mouse.LeftButton == ButtonState.Released)
