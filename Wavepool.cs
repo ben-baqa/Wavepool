@@ -80,6 +80,8 @@ namespace Wavepool
         {
             float halfX = size.X / 2;
             float panning = (origin.X - halfX) / halfX;
+            if (panning < -1) panning = -1;
+            else if(panning > 1) panning = 1;
             ripples.Add(new Ripple(origin, sound, panning, DestroyRipple));
         }
         public void DestroyRipple(Ripple ripple)

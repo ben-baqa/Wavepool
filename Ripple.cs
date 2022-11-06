@@ -7,8 +7,9 @@ namespace Wavepool
 {
     public class Ripple
     {
-        const float waveIntensity = 10;
+        const float waveIntensity = 30;
         const float wavePeriod = 30;
+        const float waveCount = 3;
         const float waveSpeed = 200;
         const float decayRate = 0.2f;
 
@@ -23,7 +24,7 @@ namespace Wavepool
         public Ripple(Vector2 point, SoundEffect sound, float panning, Action<Ripple> destroyAction)
         {
             origin = point;
-            radius = 50;
+            radius = 15;
             strength = 1;
             Destroy = destroyAction;
 
@@ -35,7 +36,7 @@ namespace Wavepool
                 soundInstance.Pitch = 5 / (float)12;
             if (rand == 2)
                 soundInstance.Pitch = -5 / (float)12;
-            Debug.WriteLine("Panning: " + panning);
+
             soundInstance.Pan = panning;
             soundInstance.Play();
 
@@ -45,7 +46,7 @@ namespace Wavepool
         public void Update(float deltaTime)
         {
             radius += waveSpeed * deltaTime;
-            strength = 50 / radius;
+            strength = 15 / radius;
             decay -= decayRate * deltaTime;
 
             //strength *= MathF.Sqrt(MathF.Pow(1 - decayBuildup, 3));
@@ -58,13 +59,19 @@ namespace Wavepool
                 Destroy(this);
         }
 
-
+        float waveLowerLimit;
         float waveLimit;
         float baseScaling;
 
         void UpdateConstants()
         {
-            waveLimit = radius + MathF.PI / 2;
+            waveLowerLimit = radius - ((4 * waveCount - 3) * wavePeriod * MathF.PI) / 2;
+            if (waveLowerLimit < 0)
+                waveLowerLimit = 0;
+            else
+                waveLowerLimit = waveLowerLimit * waveLowerLimit;
+
+            waveLimit = radius + (wavePeriod * MathF.PI) / 2;
             waveLimit *= waveLimit;
 
             baseScaling = strength * waveIntensity;
@@ -77,7 +84,7 @@ namespace Wavepool
 
             //float scaling = 1;
 
-            if (diffLength > waveLimit)
+            if (diffLength > waveLimit || diffLength < waveLowerLimit)
             {
                 //scaling = (1 + (radius - diffLength) + (radius / wavePeriod));
                 //if (scaling < 0)
@@ -89,7 +96,7 @@ namespace Wavepool
 
             float scaling = 1 + diffLength / wavePeriod;
 
-            float oscillation = MathF.Cos((diffLength - radius) / wavePeriod - MathF.PI);
+            float oscillation = MathF.Cos((diffLength - radius) / wavePeriod);
 
             diff.Normalize();
             return diff * baseScaling * oscillation * scaling;
