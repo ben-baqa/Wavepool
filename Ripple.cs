@@ -7,26 +7,40 @@ namespace Wavepool
 {
     public class Ripple
     {
-        const float waveIntensity = 30;
-        const float wavePeriod = 30;
-        const float waveCount = 3;
-        const float waveSpeed = 200;
-        const float decayRate = 0.2f;
+        public bool alive;
+
+        float waveIntensity = 30;
+        float waveSpeed = 200;
+        float wavePeriod = 30;
+        float waveCount = 3;
+        float decayRate = 0.2f;
 
         Vector2 origin;
+        float startingRadius;
         float radius;
         float strength;
         float decay;
 
-        Action<Ripple> Destroy;
         SoundEffectInstance soundInstance;
 
-        public Ripple(Vector2 point, SoundEffect sound, float panning, Action<Ripple> destroyAction)
+        public Ripple(Vector2 origin, float startingRadius = 15, float waveIntensity = 30,
+            float waveSpeed = 200, float wavePeriod = 30, float waveCount = 3, float decayRate = 0.2f)
         {
-            origin = point;
-            radius = 15;
-            strength = 1;
-            Destroy = destroyAction;
+            Init(origin, startingRadius);
+
+            this.waveIntensity = waveIntensity;
+            this.waveSpeed = waveSpeed;
+            this.wavePeriod = wavePeriod;
+            this.waveCount = waveCount;
+            this.decayRate = decayRate;
+        }
+
+        public Ripple(Vector2 origin, float startingRadius, SoundEffect sound, float panning)
+        {
+            Init(origin, startingRadius);
+            //origin = point;
+            //radius = 15;
+            //strength = 1;
 
             soundInstance = sound.CreateInstance();
             soundInstance.Volume = 0.5f;
@@ -40,7 +54,19 @@ namespace Wavepool
             soundInstance.Pan = panning;
             soundInstance.Play();
 
+            //decay = 1;
+
+        }
+        public Ripple(Vector2 origin, float startingRadius = 15) => Init(origin, startingRadius);
+        void Init(Vector2 origin, float startingRadius = 15)
+        {
+            this.origin = origin;
+            this.startingRadius = startingRadius;
+            radius = startingRadius;
+            strength = 1;
             decay = 1;
+
+            alive = true;
         }
 
         public void Update(float deltaTime)
@@ -55,7 +81,7 @@ namespace Wavepool
             UpdateConstants();
 
             if (decay < 0)
-                Destroy(this);
+                alive = false;
         }
 
         float waveLowerLimit;

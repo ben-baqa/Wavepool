@@ -2,16 +2,14 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Wavepool
 {
     public class Wavepool
     {
         List<Ripple> ripples;
-        List<Ripple> doomedRipples;
 
         WaveGrid waveGrid;
 
@@ -23,7 +21,6 @@ namespace Wavepool
         public Wavepool(Vector2 position, Vector2 size, int rows, int columns, float drawSize)
         {
             ripples = new List<Ripple>();
-            doomedRipples = new List<Ripple>();
 
             halfX = size.X / 2;
 
@@ -38,14 +35,11 @@ namespace Wavepool
 
         public void Update(float deltaTime)
         {
+            ripples = ripples.Where(ripple => ripple.alive).ToList();
+
             foreach(Ripple ripple in ripples)
             {
                 ripple.Update(deltaTime);
-            }
-
-            foreach(Ripple ripple in doomedRipples)
-            {
-                ripples.Remove(ripple);
             }
         }
 
@@ -63,12 +57,10 @@ namespace Wavepool
             float panning = (origin.X - halfX) / halfX;
             if (panning < -1) panning = -1;
             else if(panning > 1) panning = 1;
-            ripples.Add(new Ripple(origin, sound, panning, DestroyRipple));
+            ripples.Add(new Ripple(origin, 15, sound, panning));
         }
-        public void DestroyRipple(Ripple ripple)
-        {
-            doomedRipples.Add(ripple);
-        }
+
+        public void AddRipple(Ripple ripple) => ripples.Add(ripple);
 
         Vector2 GetOffset(Vector2 position)
         {
