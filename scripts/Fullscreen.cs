@@ -114,9 +114,31 @@ public class FullScreen
 
     public Vector2 ScreenToGamePoint(Vector2 pos)
     {
-        pos.X *= (float)gameResolution.X / graphics.PreferredBackBufferWidth;
-        pos.Y *= (float)gameResolution.Y / graphics.PreferredBackBufferHeight;
-        return pos;
+        //pos.X *= (float)gameResolution.X / graphics.PreferredBackBufferWidth;
+        //pos.Y *= (float)gameResolution.Y / graphics.PreferredBackBufferHeight;
+        float screenWidth = graphics.PreferredBackBufferWidth;
+        float screenHeight = graphics.PreferredBackBufferHeight;
+        Vector2 offset = Vector2.Zero;
+        float scale = 1;
+
+        float resolutionRatio = (float)gameResolution.X / gameResolution.Y;
+        float screenRatio = (float)screenWidth / screenHeight;
+
+        if (resolutionRatio < screenRatio)
+        {
+            scale = (float)screenHeight / gameResolution.Y;
+            offset = new Vector2(screenWidth / scale - gameResolution.X, 0) / 2;
+        }
+        else if (resolutionRatio > screenRatio)
+        {
+            scale = (float)screenWidth / gameResolution.X;
+            offset = new Vector2(0, screenHeight / scale - gameResolution.Y) / 2;
+        }
+
+        pos = pos / scale;
+
+
+        return pos - offset;
     }
     public Vector2 ScreenToGamePoint(Point p)
     {

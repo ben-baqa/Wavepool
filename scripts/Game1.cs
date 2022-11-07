@@ -25,7 +25,7 @@ namespace Wavepool
 {
     public class Game1 : Game
     {
-        Vector2 gameResolution = new Vector2(1920, 1080);
+        Vector2 gameResolution = new Vector2(1200, 1200);
         FullScreen fullScreenManager;
 
         private GraphicsDeviceManager graphics;
@@ -49,7 +49,7 @@ namespace Wavepool
 
             // TODO: Add your initialization logic here
             Vector2 poolMargin = Vector2.One * 20;
-            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 128, 72, 8);
+            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 100, 100, 8);
 
             base.Initialize();
         }
