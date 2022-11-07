@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-
+using System.Net.Http;
 
 public class FullScreen
 {
@@ -112,10 +112,20 @@ public class FullScreen
         return innerRectangle;
     }
 
+    public void OnWindowSizeChanged(Rectangle clientBounds)
+    {
+        if (graphics.IsFullScreen)
+            return;
+
+        graphics.PreferredBackBufferWidth = clientBounds.Width;
+        graphics.PreferredBackBufferHeight = clientBounds.Height;
+        graphics.ApplyChanges();
+
+        renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+    }
+
     public Vector2 ScreenToGamePoint(Vector2 pos)
     {
-        //pos.X *= (float)gameResolution.X / graphics.PreferredBackBufferWidth;
-        //pos.Y *= (float)gameResolution.Y / graphics.PreferredBackBufferHeight;
         float screenWidth = graphics.PreferredBackBufferWidth;
         float screenHeight = graphics.PreferredBackBufferHeight;
         Vector2 offset = Vector2.Zero;

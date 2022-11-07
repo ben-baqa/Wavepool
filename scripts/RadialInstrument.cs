@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MonoGame.Extended;
 using MonoGame.Extended.VectorDraw;
+using Microsoft.Xna.Framework.Media;
 
 namespace Wavepool
 {
@@ -20,6 +21,9 @@ namespace Wavepool
         SoundEffect[] majorSounds;
         SoundEffect[] minorSounds;
         SoundEffect innerSound;
+
+        public Action<bool> OnMiddleClicked;
+
         Vector2 centre;
         float outerRadius;
         float innerRadius;
@@ -86,6 +90,7 @@ namespace Wavepool
                 rippleSet.SpawnCentreRipple();
 
                 isMajor = !isMajor;
+                OnMiddleClicked(isMajor);
             }
             else
             {

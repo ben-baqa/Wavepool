@@ -46,10 +46,15 @@ namespace Wavepool
         protected override void Initialize()
         {
             fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
+            Window.AllowUserResizing = true;
+            Window.ClientSizeChanged += (object sender, EventArgs args) =>
+            {
+                fullScreenManager.OnWindowSizeChanged(Window.ClientBounds);
+            };
 
             // TODO: Add your initialization logic here
             Vector2 poolMargin = Vector2.One * 20;
-            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 100, 100, 8);
+            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 120, 120, 6);
 
             base.Initialize();
         }
@@ -111,6 +116,11 @@ namespace Wavepool
                 minorC,
                 minorD
             }, splash, gameResolution, 150, rippleSet);
+
+            instrument.OnMiddleClicked = isMajor =>
+            {
+                MediaPlayer.Play(isMajor ? majorAmbience : minorAmbience);
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -127,13 +137,12 @@ namespace Wavepool
             {
                 canClick = false;
                 Vector2 mousePos = new Vector2(mouse.X, mouse.Y);
+                mousePos = fullScreenManager.ScreenToGamePoint(mousePos);
 
                 // ignore clicks outside of the screen
-                if (mousePos.X > 0 && mousePos.X < graphics.PreferredBackBufferWidth &&
-                    mousePos.Y > 0 && mousePos.Y < graphics.PreferredBackBufferHeight)
+                if (mousePos.X > 0 && mousePos.X < gameResolution.X &&
+                    mousePos.Y > 0 && mousePos.Y < gameResolution.Y)
                 {
-                    mousePos = fullScreenManager.ScreenToGamePoint(mousePos);
-                    //wavepool.AddRipple(mousePos, pingSound);
                     instrument.OnClick(mousePos);
                 }
             }

@@ -52,14 +52,6 @@ namespace Wavepool
             spriteBatch.End();
         }
 
-        //public void AddRipple(Vector2 origin, SoundEffect sound)
-        //{
-        //    float panning = (origin.X - halfX) / halfX;
-        //    if (panning < -1) panning = -1;
-        //    else if(panning > 1) panning = 1;
-        //    ripples.Add(new Ripple(origin, 15, sound, panning));
-        //}
-
         public void AddRipple(Ripple ripple) => ripples.Add(ripple);
 
         Vector2 GetOffset(Vector2 position)
