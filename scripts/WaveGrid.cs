@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Wavepool
 {
@@ -13,7 +8,7 @@ namespace Wavepool
         Texture2D texture;
         SpriteBatch spriteBatch;
 
-        Func<Vector2, Vector2> GetOffset;
+        System.Func<Vector2, Vector2> GetOffset;
 
         Vector2 drawOffset;
         Vector2 drawScale;
@@ -26,7 +21,7 @@ namespace Wavepool
         int rows;
         int columns;
 
-        public WaveGrid(Vector2 position, Vector2 size, int rows, int columns, float drawSize, Func<Vector2, Vector2> GetOffset)
+        public WaveGrid(Vector2 position, Vector2 size, int rows, int columns, float drawSize, System.Func<Vector2, Vector2> GetOffset)
         {
             this.position = position;
             this.size = size;

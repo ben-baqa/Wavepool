@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
 using MonoGame.Extended;
-using MonoGame.Extended.VectorDraw;
-using Microsoft.Xna.Framework.Media;
 
 namespace Wavepool
 {
@@ -22,7 +16,7 @@ namespace Wavepool
         SoundEffect[] minorSounds;
         SoundEffect innerSound;
 
-        public Action<bool> OnMiddleClicked;
+        public System.Action<bool> OnMiddleClicked;
 
         Vector2 centre;
         float outerRadius;
@@ -66,11 +60,11 @@ namespace Wavepool
                 spriteBatch.DrawEllipse(centre, radii, 32, guideColor, guideThickness);
             }
 
-            float radStep = 2 * MathF.PI / RadialSounds.Length;
+            float radStep = 2 * System.MathF.PI / RadialSounds.Length;
             for (int i = 0; i < RadialSounds.Length; i++)
             {
                 float angle = i * radStep;
-                Vector2 direction = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
+                Vector2 direction = new Vector2(System.MathF.Cos(angle), System.MathF.Sin(angle));
                 direction.Normalize();
                 spriteBatch.DrawLine(centre + direction * innerRadius, centre + direction * outerRadius, guideColor, guideThickness);
             }
@@ -94,9 +88,8 @@ namespace Wavepool
             }
             else
             {
-                float angle = MathF.Atan2(diff.Y, diff.X) + MathF.PI;
-                int soundIndex = (int)(angle / (2 * MathF.PI) * (RadialSounds.Length));
-                Debug.WriteLine($"angle: {angle}, soundIndex: {soundIndex}");
+                float angle = System.MathF.Atan2(diff.Y, diff.X) + System.MathF.PI;
+                int soundIndex = (int)(angle / (2 * System.MathF.PI) * (RadialSounds.Length));
 
                 sound = RadialSounds[soundIndex].CreateInstance();
                 sound.Pan = GetPanning(position);
@@ -105,7 +98,6 @@ namespace Wavepool
                 rippleSet.SpawnRipple(position, soundIndex);
             }
 
-            //sound.Volume = 0.5f;
             sound.Play();
         }
 
@@ -132,7 +124,6 @@ namespace Wavepool
                 pitchIndex--;
             }
 
-            //int[] pitches = new int[] { -9, -4, 0, 3, 5, 10 };
             return Pitches[pitchIndex] / 12f;
         }
 

@@ -1,8 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Wavepool
 {
@@ -32,8 +28,6 @@ namespace Wavepool
             RippleParameters p = rippleParams[0];
             if (radialIndex >= 0 && radialIndex < rippleParams.Length)
                 p = rippleParams[radialIndex];
-            else
-                Debug.WriteLine("Attempted to get radial paramters from outside of the array. Index: " + radialIndex);
 
             wavepool.AddRipple(new Ripple(origin, p));
         }

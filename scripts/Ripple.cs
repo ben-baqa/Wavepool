@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
 
 namespace Wavepool
 {
@@ -63,13 +60,13 @@ namespace Wavepool
 
         void UpdateConstants()
         {
-            waveLowerLimit = radius - ((4 * crestCount - 3) * period * MathF.PI) / 2;
+            waveLowerLimit = radius - ((4 * crestCount - 3) * period * System.MathF.PI) / 2;
             if (waveLowerLimit < 0)
                 waveLowerLimit = 0;
             else
                 waveLowerLimit = waveLowerLimit * waveLowerLimit;
 
-            waveLimit = radius + (period * MathF.PI) / 2;
+            waveLimit = radius + (period * System.MathF.PI) / 2;
             waveLimit *= waveLimit;
 
             baseScaling = strength * amplitude;
@@ -85,11 +82,11 @@ namespace Wavepool
                 return Vector2.Zero;
             }
 
-            dist = MathF.Sqrt(dist);
+            dist = System.MathF.Sqrt(dist);
 
             float scaling = 1 + dist / period;
 
-            float oscillation = MathF.Cos((dist - radius) / period);
+            float oscillation = System.MathF.Cos((dist - radius) / period);
 
             diff.Normalize();
             return diff * baseScaling * oscillation * scaling;

@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Media;
 
 /*
@@ -47,7 +45,7 @@ namespace Wavepool
         {
             fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
             Window.AllowUserResizing = true;
-            Window.ClientSizeChanged += (object sender, EventArgs args) =>
+            Window.ClientSizeChanged += (object sender, System.EventArgs args) =>
             {
                 fullScreenManager.OnWindowSizeChanged(Window.ClientBounds);
             };
