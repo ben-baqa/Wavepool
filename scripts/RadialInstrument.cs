@@ -19,6 +19,7 @@ namespace Wavepool
         public System.Action<bool> OnMiddleClicked;
 
         Vector2 centre;
+        Vector2 margin;
         float outerRadius;
         float innerRadius;
 
@@ -28,7 +29,7 @@ namespace Wavepool
         RippleSet rippleSet;
 
         public RadialInstrument(GraphicsDevice graphicsDevice, SoundEffect[] majorSounds, SoundEffect[] minorSounds,
-            SoundEffect innerSound, Vector2 screenSize, float innerRadius, RippleSet rippleSet)
+            SoundEffect innerSound, RippleSet rippleSet, Vector2 screenSize, float innerRadius, Vector2 margin)
         {
             spriteBatch = new SpriteBatch(graphicsDevice);
 
@@ -41,22 +42,20 @@ namespace Wavepool
 
             centre = screenSize / 2;
             outerRadius = centre.Y;
+            this.margin = margin;
 
             this.rippleSet = rippleSet;
         }
 
-        public void DrawGuides()
+        public void DrawGuides(Color guideColor, float guideThickness = 10)
         {
-            Color guideColor = Color.WhiteSmoke;
-            float guideThickness = 2;
-
             spriteBatch.Begin();
-            spriteBatch.DrawCircle(centre, innerRadius, 32, guideColor, guideThickness * 5);
+            spriteBatch.DrawCircle(centre, innerRadius, 32, guideColor, guideThickness * 1.5f);
 
             for(int i = 0; i < 5; i++)
             {
-                Vector2 radii = new Vector2(innerRadius + (i + 1) * (centre.X - innerRadius) / 6,
-                    innerRadius + (i + 1) * (centre.Y - innerRadius) / 6);
+                Vector2 radii = new Vector2(innerRadius + (i + 1) * (centre.X - innerRadius - margin.X) / 5,
+                    innerRadius + (i + 1) * (centre.Y - innerRadius - margin.Y) / 5);
                 spriteBatch.DrawEllipse(centre, radii, 32, guideColor, guideThickness);
             }
 
@@ -118,7 +117,7 @@ namespace Wavepool
             int pitchIndex = 5;
 
             Vector2 radii = Vector2.One * innerRadius;
-            Vector2 radiiStep = (centre - radii) / 6;
+            Vector2 radiiStep = (centre - radii - margin) / 5;
             while (pitchIndex > 0)
             {
                 radii += radiiStep;

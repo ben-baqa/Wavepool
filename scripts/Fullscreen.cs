@@ -6,26 +6,29 @@ public class FullScreen
 {
     RenderTarget2D renderTarget;
     Rectangle renderTargetDestination;
-    Point gameResolution;
+    Point resolution;
     bool canToggleFullscreen = true;
+    bool fullscreenToggled;
 
     GraphicsDeviceManager graphics;
     GraphicsDevice graphicsDevice;
     SpriteBatch spriteBatch;
     Color letterboxingColour;
 
+    Vector2 letterBoxOffset;
+
     public FullScreen(Vector2 res, Color backgroundColour, GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
     {
-        gameResolution = new Point((int)res.X, (int)res.Y);
+        resolution = new Point((int)res.X, (int)res.Y);
 
         this.graphics = graphics;
-        graphics.PreferredBackBufferWidth = gameResolution.X;
-        graphics.PreferredBackBufferHeight = gameResolution.Y;
+        graphics.PreferredBackBufferWidth = resolution.X;
+        graphics.PreferredBackBufferHeight = resolution.Y;
         graphics.ApplyChanges();
 
         this.graphicsDevice = graphicsDevice;
-        renderTarget = new RenderTarget2D(graphicsDevice, gameResolution.X, gameResolution.Y);
-        renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        renderTarget = new RenderTarget2D(graphicsDevice, resolution.X, resolution.Y);
+        renderTargetDestination = GetRenderTargetDestination(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
         this.spriteBatch = new SpriteBatch(graphicsDevice);
         letterboxingColour = backgroundColour;
@@ -47,8 +50,6 @@ public class FullScreen
     {
         graphicsDevice.SetRenderTarget(renderTarget);
         graphicsDevice.Clear(letterboxingColour);
-
-        graphicsDevice.Clear(Color.CornflowerBlue);
     }
 
     public void Pop()
@@ -63,6 +64,7 @@ public class FullScreen
 
     public void ToggleFullScreen()
     {
+        fullscreenToggled = true;
         if (!graphics.IsFullScreen)
         {
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
@@ -70,16 +72,16 @@ public class FullScreen
         }
         else
         {
-            graphics.PreferredBackBufferWidth = gameResolution.X;
-            graphics.PreferredBackBufferHeight = gameResolution.Y;
+            graphics.PreferredBackBufferWidth = resolution.X;
+            graphics.PreferredBackBufferHeight = resolution.Y;
         }
         graphics.IsFullScreen = !graphics.IsFullScreen;
         graphics.ApplyChanges();
 
-        renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        renderTargetDestination = GetRenderTargetDestination(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
     }
 
-    Rectangle GetRenderTargetDestination(Point resolution, int preferredBackBufferWidth, int preferredBackBufferHeight)
+    Rectangle GetRenderTargetDestination(int preferredBackBufferWidth, int preferredBackBufferHeight)
     {
         float resolutionRatio = (float)resolution.X / resolution.Y;
         float screenRatio;
@@ -88,10 +90,17 @@ public class FullScreen
         float scale;
         Rectangle rectangle = new Rectangle();
 
+        letterBoxOffset = Vector2.Zero;
         if (resolutionRatio < screenRatio)
+        {
             scale = (float)bounds.Y / resolution.Y;
+            letterBoxOffset = new Vector2(bounds.X / scale - this.resolution.X, 0) / 2;
+        }
         else if (resolutionRatio > screenRatio)
+        {
             scale = (float)bounds.X / resolution.X;
+            letterBoxOffset = new Vector2(bounds.Y / scale - this.resolution.Y, 0) / 2;
+        }
         else
         {
             // Resolution and window/screen share aspect ratio
@@ -100,6 +109,7 @@ public class FullScreen
         }
         rectangle.Width = (int)(resolution.X * scale);
         rectangle.Height = (int)(resolution.Y * scale);
+
         return CenterRectangle(new Rectangle(Point.Zero, bounds), rectangle);
     }
 
@@ -112,14 +122,17 @@ public class FullScreen
 
     public void OnWindowSizeChanged(Rectangle clientBounds)
     {
-        if (graphics.IsFullScreen)
+        if (fullscreenToggled)
+        {
+            fullscreenToggled = false;
             return;
+        }
 
         graphics.PreferredBackBufferWidth = clientBounds.Width;
         graphics.PreferredBackBufferHeight = clientBounds.Height;
         graphics.ApplyChanges();
 
-        renderTargetDestination = GetRenderTargetDestination(gameResolution, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+        renderTargetDestination = GetRenderTargetDestination(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
     }
 
     public Vector2 ScreenToGamePoint(Vector2 pos)
@@ -129,24 +142,24 @@ public class FullScreen
         Vector2 offset = Vector2.Zero;
         float scale = 1;
 
-        float resolutionRatio = (float)gameResolution.X / gameResolution.Y;
+        float resolutionRatio = (float)resolution.X / resolution.Y;
         float screenRatio = (float)screenWidth / screenHeight;
 
         if (resolutionRatio < screenRatio)
         {
-            scale = (float)screenHeight / gameResolution.Y;
-            offset = new Vector2(screenWidth / scale - gameResolution.X, 0) / 2;
+            scale = (float)screenHeight / resolution.Y;
+            offset = new Vector2(screenWidth / scale - resolution.X, 0) / 2;
         }
         else if (resolutionRatio > screenRatio)
         {
-            scale = (float)screenWidth / gameResolution.X;
-            offset = new Vector2(0, screenHeight / scale - gameResolution.Y) / 2;
+            scale = (float)screenWidth / resolution.X;
+            offset = new Vector2(0, screenHeight / scale - resolution.Y) / 2;
         }
 
         pos = pos / scale;
 
 
-        return pos - offset;
+        return pos - letterBoxOffset;
     }
     public Vector2 ScreenToGamePoint(Point p)
     {

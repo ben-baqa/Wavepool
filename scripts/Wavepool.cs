@@ -16,13 +16,13 @@ namespace Wavepool
         float halfX;
 
 
-        public Wavepool(Vector2 position, Vector2 size, int rows, int columns, float drawSize)
+        public Wavepool(Vector2 position, Vector2 size, int rows, int columns, float drawSize, Color dotColour)
         {
             ripples = new List<Ripple>();
 
             halfX = size.X / 2;
 
-            waveGrid = new WaveGrid(position, size, rows, columns, drawSize, GetOffset);
+            waveGrid = new WaveGrid(position, size, rows, columns, drawSize, dotColour, GetOffset);
         }
 
         public void Load(Texture2D texture, GraphicsDevice graphicsDevice)
@@ -62,6 +62,11 @@ namespace Wavepool
             }
 
             return offset;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            waveGrid.position = position;
         }
     }
 }

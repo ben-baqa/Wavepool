@@ -49,297 +49,51 @@
 /processorParam:TextureFormat=Color
 /build:circle.png
 
-#begin echopingforchloeswaves.ogg
+#begin Pings/MajorSets/MajorWaveA.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:echopingforchloeswaves.ogg;ping.ogg
+/build:Pings/MajorSets/MajorWaveA.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote1.ogg
+#begin Pings/MajorSets/MajorWaveB.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote1.ogg
+/build:Pings/MajorSets/MajorWaveB.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote2.ogg
+#begin Pings/MajorSets/MajorWaveC.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote2.ogg
+/build:Pings/MajorSets/MajorWaveC.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote3.ogg
+#begin Pings/MajorSets/MajorWaveD.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote3.ogg
+/build:Pings/MajorSets/MajorWaveD.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote4.ogg
+#begin Pings/MinorSets/MinorWaveA.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote4.ogg
+/build:Pings/MinorSets/MinorWaveA.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote5.ogg
+#begin Pings/MinorSets/MinorWaveB.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote5.ogg
+/build:Pings/MinorSets/MinorWaveB.ogg
 
-#begin Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote6.ogg
+#begin Pings/MinorSets/MinorWaveC.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote6.ogg
+/build:Pings/MinorSets/MinorWaveC.ogg
 
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote1.ogg
+#begin Pings/MinorSets/MinorWaveD.ogg
 /importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote1.ogg
-
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote2.ogg
-
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote3Fixed.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote3Fixed.ogg;Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote3.ogg
-
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote4.ogg
-
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote5.ogg
-
-#begin Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote6.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote1Fixed.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote1Fixed.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote2.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote3.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote3.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote4.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote5.ogg
-
-#begin Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote6.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote1.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote1.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote2.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote3.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote3.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote4.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote5.ogg
-
-#begin Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote6.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote1.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote1.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote2.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote3.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote3.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote4.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote5.ogg
-
-#begin Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote6.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote3Fixed.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote3Fixed.ogg;Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote3.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote4.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote5.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote6.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMinorWaveBNote1.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMinorWaveBNote1.ogg
-
-#begin Pings/MinorSets/MinorWaveformB/WavegamePingMinorWaveBNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformB/WavegamePingMinorWaveBNote2.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote1.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote1.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote2.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote3.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote3.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote4Fixed2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote4Fixed2.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote5.ogg
-
-#begin Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote6.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote1.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote1.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote2.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote2.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote3.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote3.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote4.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote4.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote5.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote5.ogg
-
-#begin Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote6.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote6.ogg
+/build:Pings/MinorSets/MinorWaveD.ogg
 

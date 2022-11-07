@@ -12,24 +12,25 @@ namespace Wavepool
 
         Vector2 drawOffset;
         Vector2 drawScale;
+        Color colour;
         float drawSize;
 
-        Vector2 position;
-        Vector2 size;
+        public Vector2 position;
         Vector2 spacing;
 
         int rows;
         int columns;
 
-        public WaveGrid(Vector2 position, Vector2 size, int rows, int columns, float drawSize, System.Func<Vector2, Vector2> GetOffset)
+        public WaveGrid(Vector2 position, Vector2 size, int rows, int columns, float drawSize,
+            Color colour, System.Func<Vector2, Vector2> GetOffset)
         {
             this.position = position;
-            this.size = size;
             this.rows = rows;
             this.columns = columns;
             this.drawSize = drawSize;
 
             spacing = new Vector2(size.X / rows, size.Y / columns);
+            this.colour = colour;
             this.GetOffset = GetOffset;
         }
 
@@ -44,9 +45,9 @@ namespace Wavepool
 
         public void DrawGrid()
         {
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i <= rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j <= columns; j++)
                 {
                     DrawPoint(GetPoint(i, j));
                 }
@@ -66,7 +67,7 @@ namespace Wavepool
                 texture,
                 position,
                 null,
-                Color.White,
+                colour,
                 0f,
                 drawOffset,
                 drawScale,

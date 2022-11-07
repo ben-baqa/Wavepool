@@ -24,6 +24,13 @@ namespace Wavepool
     public class Game1 : Game
     {
         Vector2 gameResolution = new Vector2(1200, 1200);
+        Vector2 margin = Vector2.One * 20;
+
+        Color backgroundColour = new Color(65, 75, 100);
+        Color dotColour = new Color(180, 190, 220);
+        Color guideColour = new Color(100, 110, 120);
+
+
         FullScreen fullScreenManager;
 
         private GraphicsDeviceManager graphics;
@@ -43,7 +50,7 @@ namespace Wavepool
 
         protected override void Initialize()
         {
-            fullScreenManager = new FullScreen(gameResolution, Color.CornflowerBlue, graphics, GraphicsDevice);
+            fullScreenManager = new FullScreen(gameResolution, backgroundColour, graphics, GraphicsDevice);
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += (object sender, System.EventArgs args) =>
             {
@@ -51,8 +58,7 @@ namespace Wavepool
             };
 
             // TODO: Add your initialization logic here
-            Vector2 poolMargin = Vector2.One * 20;
-            wavepool = new Wavepool(poolMargin + 4 * Vector2.One, gameResolution - poolMargin * 2, 120, 120, 6);
+            wavepool = new Wavepool(margin, gameResolution - 2 * margin, 150, 150, 6, dotColour);
 
             base.Initialize();
         }
@@ -67,13 +73,11 @@ namespace Wavepool
             RippleSet rippleSet = new RippleSet(wavepool, new RippleParameters[]
             {
                 new RippleParameters(10, 25, 200, 20, 1, 0.2f),
-                new RippleParameters(12, 28, 200, 25, 1, 0.2f),
-                new RippleParameters(12, 28, 200, 30, 1, 0.2f),
-                new RippleParameters(20, 30, 200, 40, 5, 0.2f)
+                new RippleParameters(15, 30, 200, 22, 1, 0.2f),
+                new RippleParameters(15, 30, 200, 22, 1, 0.2f),
+                new RippleParameters(25, 35, 200, 35, 1, 0.2f)
             }, new RippleParameters(50, 50, 200, 50, 5, 0.1f),
             gameResolution);
-
-            //SoundEffect pingSound = Content.Load<SoundEffect>("ping");
 
             Song majorAmbience = Content.Load<Song>("Ambiance/WavegameAmbianceMajorStereo");
             Song minorAmbience = Content.Load<Song>("Ambiance/WavegameAmbianceMinorStereo");
@@ -91,16 +95,16 @@ namespace Wavepool
 
             SoundEffect splash = Content.Load<SoundEffect>("Ambiance/WavegamePingSplashZone");
 
-            SoundEffect majorA = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveformA/WavegamePingMajorWaveANote3");
-            SoundEffect majorB = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveformB/WavegamePingMajorWaveBNote3");
-            SoundEffect majorC = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveformC/WavegamePingMajorWaveCNote3");
-            SoundEffect majorD = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveformD/WavegamePingMajorWaveDNote3");
+            SoundEffect majorA = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveA");
+            SoundEffect majorB = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveB");
+            SoundEffect majorC = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveC");
+            SoundEffect majorD = Content.Load<SoundEffect>("Pings/MajorSets/MajorWaveD");
 
 
-            SoundEffect minorA = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveformA/WavegamePingMinorWaveANote3");
-            SoundEffect minorB = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveformB/WavegamePingMajorWaveBNote3");
-            SoundEffect minorC = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveformC/WavegamePingMajorWaveCNote3");
-            SoundEffect minorD = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveformD/WavegamePingMajorWaveDNote3");
+            SoundEffect minorA = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveA");
+            SoundEffect minorB = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveB");
+            SoundEffect minorC = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveC");
+            SoundEffect minorD = Content.Load<SoundEffect>("Pings/MinorSets/MinorWaveD");
             instrument = new RadialInstrument(GraphicsDevice, new SoundEffect[]
             {
                 majorA,
@@ -113,7 +117,7 @@ namespace Wavepool
                 minorB,
                 minorC,
                 minorD
-            }, splash, gameResolution, 150, rippleSet);
+            }, splash, rippleSet, gameResolution, 150, margin);
 
             instrument.OnMiddleClicked = isMajor =>
             {
@@ -155,8 +159,7 @@ namespace Wavepool
         protected override void Draw(GameTime gameTime)
         {
             fullScreenManager.Push();
-
-            instrument.DrawGuides();
+            instrument.DrawGuides(guideColour);
             wavepool.Draw();
 
             fullScreenManager.Pop();

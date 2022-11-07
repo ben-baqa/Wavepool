@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Security.Cryptography;
 
 namespace Wavepool
 {
@@ -11,6 +12,7 @@ namespace Wavepool
         float wavelength = 30;
         float crestCount = 1;
         float decayRate = 0.2f;
+        const float twoPI = System.MathF.PI * 2;
 
         Vector2 origin;
         float startingRadius;
@@ -54,17 +56,24 @@ namespace Wavepool
                 alive = false;
         }
 
-        float waveLowerLimit;
         float waveLimit;
+        float waveLowerLimit;
+        float waveTailLimit;
+        float waveTailLimitSquared;
         float baseScaling;
 
         void UpdateConstants()
         {
-            waveLowerLimit = radius - ((4 * crestCount - 3) * wavelength * System.MathF.PI) / 2;
+            waveLowerLimit = radius - twoPI * wavelength * (crestCount - 0.75f);
             if (waveLowerLimit < 0)
                 waveLowerLimit = 0;
             else
-                waveLowerLimit = waveLowerLimit * waveLowerLimit;
+                waveLowerLimit *= waveLowerLimit;
+
+            waveTailLimit = radius - twoPI * wavelength * (crestCount - 0.25f);
+            if(waveTailLimit < 0)
+                waveTailLimit = 0;
+            waveTailLimitSquared = waveTailLimit * waveTailLimit;
 
             waveLimit = radius + (wavelength * System.MathF.PI) / 2;
             waveLimit *= waveLimit;
@@ -77,8 +86,15 @@ namespace Wavepool
             Vector2 diff = point - origin;
             float dist = diff.LengthSquared();
 
+            if (dist == 0)
+                return Vector2.Zero;
+
             if (dist > waveLimit || dist < waveLowerLimit)
             {
+                if(dist < waveLowerLimit && dist > waveTailLimitSquared)
+                {
+                    return GetTailOffset(diff, dist);
+                }
                 return Vector2.Zero;
             }
 
@@ -88,8 +104,19 @@ namespace Wavepool
 
             float oscillation = System.MathF.Cos((dist - radius) / wavelength);
 
-            diff.Normalize();
-            return diff * baseScaling * oscillation * scaling;
+            return Vector2.Normalize(diff) * baseScaling * oscillation * scaling;
+        }
+
+        public Vector2 GetTailOffset(Vector2 dir, float distSquared)
+        {
+            float dist = System.MathF.Sqrt(distSquared);
+
+            float scaling = (dist - waveTailLimit) / (wavelength * System.MathF.PI);
+            scaling *= 1 + dist / wavelength;
+
+            float oscillation = System.MathF.Cos((dist - radius) / wavelength);
+
+            return Vector2.Normalize(dir) * baseScaling * oscillation * scaling;
         }
     }
 }
