@@ -91,11 +91,15 @@ namespace Wavepool
                 float angle = System.MathF.Atan2(diff.Y, diff.X) + System.MathF.PI;
                 int soundIndex = (int)(angle / (2 * System.MathF.PI) * (RadialSounds.Length));
 
+                if (soundIndex == RadialSounds.Length)
+                    soundIndex--;
+
                 sound = RadialSounds[soundIndex].CreateInstance();
                 sound.Pan = GetPanning(position);
-                sound.Pitch = GetPitch(position);
+                float pitch = GetPitch(position);
+                sound.Pitch = pitch;
 
-                rippleSet.SpawnRipple(position, soundIndex);
+                rippleSet.SpawnRipple(position, soundIndex, pitch);
             }
 
             sound.Play();

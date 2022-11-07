@@ -23,11 +23,15 @@ namespace Wavepool
             wavepool.AddRipple(new Ripple(centre, centreRippleParams));
         }
 
-        public void SpawnRipple(Vector2 origin, int radialIndex)
+        public void SpawnRipple(Vector2 origin, int radialIndex, float pitch)
         {
             RippleParameters p = rippleParams[0];
             if (radialIndex >= 0 && radialIndex < rippleParams.Length)
                 p = rippleParams[radialIndex];
+
+            float pitchRatio = System.MathF.Pow(2, pitch);
+            p.wavelength /= pitchRatio;
+            p.amplitude /= pitchRatio;
 
             wavepool.AddRipple(new Ripple(origin, p));
         }
@@ -38,16 +42,16 @@ namespace Wavepool
         public float radius;
         public float amplitude;
         public float speed;
-        public float period;
+        public float wavelength;
         public float crestCount;
         public float decayRate;
 
-        public RippleParameters(float radius, float amplitude, float speed, float period, float crestCount, float decayRate)
+        public RippleParameters(float radius, float amplitude, float speed, float wavelength, float crestCount, float decayRate)
         {
             this.radius = radius;
             this.amplitude = amplitude;
             this.speed = speed;
-            this.period = period;
+            this.wavelength = wavelength;
             this.crestCount = crestCount;
             this.decayRate = decayRate;
         }
@@ -58,7 +62,7 @@ namespace Wavepool
             result.radius = MathHelper.Lerp(radius, target.radius, f);
             result.amplitude = MathHelper.Lerp(amplitude, target.amplitude, f);
             result.speed = MathHelper.Lerp(speed, target.speed, f);
-            result.period = MathHelper.Lerp(period, target.period, f);
+            result.wavelength = MathHelper.Lerp(wavelength, target.wavelength, f);
             result.crestCount = MathHelper.Lerp(crestCount, target.crestCount, f);
             result.decayRate = MathHelper.Lerp(decayRate, target.decayRate, f);
             return result;

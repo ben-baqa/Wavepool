@@ -8,7 +8,7 @@ namespace Wavepool
 
         float amplitude = 30;
         float speed = 200;
-        float period = 30;
+        float wavelength = 30;
         float crestCount = 1;
         float decayRate = 0.2f;
 
@@ -24,7 +24,7 @@ namespace Wavepool
 
             amplitude = parameters.amplitude;
             speed = parameters.speed;
-            period = parameters.period;
+            wavelength = parameters.wavelength;
             crestCount = parameters.crestCount;
             decayRate = parameters.decayRate;
         }
@@ -60,13 +60,13 @@ namespace Wavepool
 
         void UpdateConstants()
         {
-            waveLowerLimit = radius - ((4 * crestCount - 3) * period * System.MathF.PI) / 2;
+            waveLowerLimit = radius - ((4 * crestCount - 3) * wavelength * System.MathF.PI) / 2;
             if (waveLowerLimit < 0)
                 waveLowerLimit = 0;
             else
                 waveLowerLimit = waveLowerLimit * waveLowerLimit;
 
-            waveLimit = radius + (period * System.MathF.PI) / 2;
+            waveLimit = radius + (wavelength * System.MathF.PI) / 2;
             waveLimit *= waveLimit;
 
             baseScaling = strength * amplitude;
@@ -84,9 +84,9 @@ namespace Wavepool
 
             dist = System.MathF.Sqrt(dist);
 
-            float scaling = 1 + dist / period;
+            float scaling = 1 + dist / wavelength;
 
-            float oscillation = System.MathF.Cos((dist - radius) / period);
+            float oscillation = System.MathF.Cos((dist - radius) / wavelength);
 
             diff.Normalize();
             return diff * baseScaling * oscillation * scaling;

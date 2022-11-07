@@ -66,11 +66,11 @@ namespace Wavepool
 
             RippleSet rippleSet = new RippleSet(wavepool, new RippleParameters[]
             {
-                new RippleParameters(15, 30, 200, 30, 1, 0.2f),
-                new RippleParameters(15, 30, 200, 30, 1, 0.2f),
-                new RippleParameters(15, 30, 200, 30, 1, 0.2f),
-                new RippleParameters(15, 30, 200, 30, 1, 0.2f)
-            }, new RippleParameters(75, 50, 200, 50, 5, 0.1f),
+                new RippleParameters(10, 25, 200, 20, 1, 0.2f),
+                new RippleParameters(12, 28, 200, 25, 1, 0.2f),
+                new RippleParameters(12, 28, 200, 30, 1, 0.2f),
+                new RippleParameters(20, 30, 200, 40, 5, 0.2f)
+            }, new RippleParameters(50, 50, 200, 50, 5, 0.1f),
             gameResolution);
 
             //SoundEffect pingSound = Content.Load<SoundEffect>("ping");
